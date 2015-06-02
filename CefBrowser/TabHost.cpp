@@ -44,7 +44,8 @@ void CTabHost::Destroy()
         stTabInfo& info = *iteBrowser;
         if(info.browser.get())
         {
-            info.browser->GetHost()->ParentWindowWillClose();
+            //info.browser->GetHost()->ParentWindowWillClose();
+			//TODO: 
         }
     }
     m_vctTabInfo.clear();
@@ -114,7 +115,7 @@ void CTabHost::CreateTab(LPCTSTR szUrl)
 
     // Creat the new child browser window
     CefRefPtr<CefBrowser> browser;
-    CefBrowserHost::CreateBrowser(info, XGlobal::inst().ClientHandler.get(), szUrl, settings);
+    CefBrowserHost::CreateBrowser(info, XGlobal::inst().ClientHandler.get(), szUrl, settings, nullptr);
 
     ::SetWindowText(m_hEditUrlWnd, szUrl);
 }
@@ -175,7 +176,8 @@ void CTabHost::CloseTab(HWND hWndButton)
     {
         m_hVisibleBrowser = m_hVisibleTabButton = NULL;
     }
-    info.browser->GetHost()->CloseBrowser();
+	//TODO: 
+    info.browser->GetHost()->CloseBrowser(true);
     DeleteHistory(info.hWndButton);
     m_vctTabInfo.erase(ite);
 

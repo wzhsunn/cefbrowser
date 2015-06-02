@@ -1,4 +1,4 @@
-// Copyright (c) 2013 The Chromium Embedded Framework Authors. All rights
+// Copyright (c) 2014 The Chromium Embedded Framework Authors. All rights
 // reserved. Use of this source code is governed by a BSD-style license that
 // can be found in the LICENSE file.
 //
@@ -18,10 +18,10 @@
 // STATIC METHODS - Body may be edited by hand.
 
 CefRefPtr<CefCommandLine> CefCommandLine::CreateCommandLine() {
-  int build_revision = cef_build_revision();
-  if (build_revision != CEF_REVISION) {
-    // The libcef build revision does not match the CEF API revision.
-    DCHECK(false);
+  const char* api_hash = cef_api_hash(0);
+  if (strcmp(api_hash, CEF_API_HASH_PLATFORM)) {
+    // The libcef API hash does not match the current header API hash.
+    NOTREACHED();
     return NULL;
   }
 
@@ -35,10 +35,10 @@ CefRefPtr<CefCommandLine> CefCommandLine::CreateCommandLine() {
 }
 
 CefRefPtr<CefCommandLine> CefCommandLine::GetGlobalCommandLine() {
-  int build_revision = cef_build_revision();
-  if (build_revision != CEF_REVISION) {
-    // The libcef build revision does not match the CEF API revision.
-    DCHECK(false);
+  const char* api_hash = cef_api_hash(0);
+  if (strcmp(api_hash, CEF_API_HASH_PLATFORM)) {
+    // The libcef API hash does not match the current header API hash.
+    NOTREACHED();
     return NULL;
   }
 
@@ -392,7 +392,7 @@ void CefCommandLineCToCpp::PrependWrapper(const CefString& wrapper) {
 
 
 #ifndef NDEBUG
-template<> long CefCToCpp<CefCommandLineCToCpp, CefCommandLine,
+template<> base::AtomicRefCount CefCToCpp<CefCommandLineCToCpp, CefCommandLine,
     cef_command_line_t>::DebugObjCt = 0;
 #endif
 

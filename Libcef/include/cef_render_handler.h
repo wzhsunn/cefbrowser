@@ -40,6 +40,7 @@
 
 #include "include/cef_base.h"
 #include "include/cef_browser.h"
+#include "include/cef_drag_data.h"
 #include <vector>
 
 ///
@@ -49,6 +50,9 @@
 /*--cef(source=client)--*/
 class CefRenderHandler : public virtual CefBase {
  public:
+  typedef cef_cursor_type_t CursorType;
+  typedef cef_drag_operations_mask_t DragOperation;
+  typedef cef_drag_operations_mask_t DragOperationsMask;
   typedef cef_paint_element_type_t PaintElementType;
   typedef std::vector<CefRect> RectList;
 
@@ -79,6 +83,19 @@ class CefRenderHandler : public virtual CefBase {
                               int& screenY) { return false; }
 
   ///
+  // Called to allow the client to fill in the CefScreenInfo object with
+  // appropriate values. Return true if the |screen_info| structure has been
+  // modified.
+  //
+  // If the screen info rectangle is left empty the rectangle from GetViewRect
+  // will be used. If the rectangle is still empty or invalid popups may not be
+  // drawn correctly.
+  ///
+  /*--cef()--*/
+  virtual bool GetScreenInfo(CefRefPtr<CefBrowser> browser,
+                             CefScreenInfo& screen_info) { return false; }
+
+  ///
   // Called when the browser wants to show or hide the popup widget. The popup
   // should be shown if |show| is true and hidden if |show| is false.
   ///
@@ -98,8 +115,8 @@ class CefRenderHandler : public virtual CefBase {
   // Called when an element should be painted. |type| indicates whether the
   // element is the view or the popup widget. |buffer| contains the pixel data
   // for the whole image. |dirtyRects| contains the set of rectangles that need
-  // to be repainted. On Windows |buffer| will be |width|*|height|*4 bytes
-  // in size and represents a BGRA image with an upper-left origin.
+  // to be repainted. |buffer| will be |width|*|height|*4 bytes in size and
+  // represents a BGRA image with an upper-left origin.
   ///
   /*--cef()--*/
   virtual void OnPaint(CefRefPtr<CefBrowser> browser,
@@ -109,11 +126,49 @@ class CefRenderHandler : public virtual CefBase {
                        int width, int height) =0;
 
   ///
-  // Called when the browser window's cursor has changed.
+  // Called when the browser's cursor has changed. If |type| is CT_CUSTOM then
+  // |custom_cursor_info| will be populated with the custom cursor information.
   ///
   /*--cef()--*/
   virtual void OnCursorChange(CefRefPtr<CefBrowser> browser,
-                              CefCursorHandle cursor) {}
+                              CefCursorHandle cursor,
+                              CursorType type,
+                              const CefCursorInfo& custom_cursor_info) {}
+
+  ///
+  // Called when the user starts dragging content in the web view. Contextual
+  // information about the dragged content is supplied by |drag_data|.
+  // OS APIs that run a system message loop may be used within the
+  // StartDragging call.
+  //
+  // Return false to abort the drag operation. Don't call any of
+  // CefBrowserHost::DragSource*Ended* methods after returning false.
+  //
+  // Return true to handle the drag operation. Call
+  // CefBrowserHost::DragSourceEndedAt and DragSourceSystemDragEnded either
+  // synchronously or asynchronously to inform the web view that the drag
+  // operation has ended.
+  ///
+  /*--cef()--*/
+  virtual bool StartDragging(CefRefPtr<CefBrowser> browser,
+                             CefRefPtr<CefDragData> drag_data,
+                             DragOperationsMask allowed_ops,
+                             int x, int y) { return false; }
+
+  ///
+  // Called when the web view wants to update the mouse cursor during a
+  // drag & drop operation. |operation| describes the allowed operation
+  // (none, move, copy, link).
+  ///
+  /*--cef()--*/
+  virtual void UpdateDragCursor(CefRefPtr<CefBrowser> browser,
+                                DragOperation operation) {}
+
+  ///
+  // Called when the scroll offset has changed.
+  ///
+  /*--cef()--*/
+  virtual void OnScrollOffsetChanged(CefRefPtr<CefBrowser> browser) {}
 };
 
 #endif  // CEF_INCLUDE_CEF_RENDER_HANDLER_H_

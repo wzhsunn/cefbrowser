@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="share">
+      <UniqueIdentifier>{da46ccfa-a87b-4ceb-aada-fd5a6e493469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{aef3aa96-4112-4ef3-b109-979aa463f4aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cef">
+      <UniqueIdentifier>{ea721461-8317-4cec-8b1d-1a0cc8c0e934}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CefBrowser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CefBrowserDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TabHost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\share\WndContainer.cpp">
+      <Filter>share</Filter>
+    </ClCompile>
+    <ClCompile Include="..\share\WndLayout.cpp">
+      <Filter>share</Filter>
+    </ClCompile>
+    <ClCompile Include="XGlobal.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="XRegUtil.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="XUtil.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="client_switches.cpp">
+      <Filter>cef</Filter>
+    </ClCompile>
+    <ClCompile Include="XAppExtentionHandler.cpp">
+      <Filter>cef</Filter>
+    </ClCompile>
+    <ClCompile Include="XClientApp.cpp">
+      <Filter>cef</Filter>
+    </ClCompile>
+    <ClCompile Include="XClientHandler.cpp">
+      <Filter>cef</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CefBrowser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CefBrowserDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TabHost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\share\WndContainer.h">
+      <Filter>share</Filter>
+    </ClInclude>
+    <ClInclude Include="..\share\WndLayout.h">
+      <Filter>share</Filter>
+    </ClInclude>
+    <ClInclude Include="XBuffer.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="XGlobal.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="XRegUtil.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="XUtil.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="client_switches.h">
+      <Filter>cef</Filter>
+    </ClInclude>
+    <ClInclude Include="XAppExtentionHandler.h">
+      <Filter>cef</Filter>
+    </ClInclude>
+    <ClInclude Include="XClientApp.h">
+      <Filter>cef</Filter>
+    </ClInclude>
+    <ClInclude Include="XClientHandler.h">
+      <Filter>cef</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\app.js">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\CefBrowser.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\testapp.html">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\CefBrowser.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CefBrowser.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

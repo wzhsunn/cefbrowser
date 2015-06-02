@@ -44,7 +44,7 @@ BOOL CCefBrowserApp::InitInstance()
         CefRefPtr<XClientApp> app(new XClientApp);
 
         // Execute the secondary process, if any.
-        int exit_code = CefExecuteProcess(main_args, app.get());
+        int exit_code = CefExecuteProcess(main_args, app.get(), nullptr);
         if (exit_code >= 0)
             return exit_code;
 
@@ -57,7 +57,7 @@ BOOL CCefBrowserApp::InitInstance()
         AppGetSettings(settings);
 
         // Initialize CEF.
-        CefInitialize(main_args, settings, app.get());
+        CefInitialize(main_args, settings, app.get(), nullptr);
 
         // Init plugins, like Flash etc.
         InitWebPlugins();

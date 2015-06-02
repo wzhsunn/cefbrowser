@@ -50,15 +50,6 @@
 class CefDisplayHandler : public virtual CefBase {
  public:
   ///
-  // Called when the loading state has changed.
-  ///
-  /*--cef()--*/
-  virtual void OnLoadingStateChange(CefRefPtr<CefBrowser> browser,
-                                    bool isLoading,
-                                    bool canGoBack,
-                                    bool canGoForward) {}
-
-  ///
   // Called when a frame's address has changed.
   ///
   /*--cef()--*/
@@ -86,9 +77,8 @@ class CefDisplayHandler : public virtual CefBase {
                          CefString& text) { return false; }
 
   ///
-  // Called when the browser receives a status message. |text| contains the text
-  // that will be displayed in the status message and |type| indicates the
-  // status message type.
+  // Called when the browser receives a status message. |value| contains the
+  // text that will be displayed in the status message.
   ///
   /*--cef(optional_param=value)--*/
   virtual void OnStatusMessage(CefRefPtr<CefBrowser> browser,

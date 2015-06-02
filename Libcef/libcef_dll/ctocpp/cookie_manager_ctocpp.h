@@ -1,4 +1,4 @@
-// Copyright (c) 2013 The Chromium Embedded Framework Authors. All rights
+// Copyright (c) 2014 The Chromium Embedded Framework Authors. All rights
 // reserved. Use of this source code is governed by a BSD-style license that
 // can be found in the LICENSE file.
 //
@@ -44,7 +44,9 @@ class CefCookieManagerCToCpp
       const CefCookie& cookie) OVERRIDE;
   virtual bool DeleteCookies(const CefString& url,
       const CefString& cookie_name) OVERRIDE;
-  virtual bool SetStoragePath(const CefString& path) OVERRIDE;
+  virtual bool SetStoragePath(const CefString& path,
+      bool persist_session_cookies) OVERRIDE;
+  virtual bool FlushStore(CefRefPtr<CefCompletionCallback> callback) OVERRIDE;
 };
 
 #endif  // USING_CEF_SHARED

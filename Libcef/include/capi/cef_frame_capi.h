@@ -1,4 +1,4 @@
-// Copyright (c) 2013 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2014 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -38,12 +38,18 @@
 #define CEF_INCLUDE_CAPI_CEF_FRAME_CAPI_H_
 #pragma once
 
+#include "include/capi/cef_base_capi.h"
+#include "include/capi/cef_dom_capi.h"
+#include "include/capi/cef_request_capi.h"
+#include "include/capi/cef_stream_capi.h"
+#include "include/capi/cef_string_visitor_capi.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "include/capi/cef_base_capi.h"
-
+struct _cef_browser_t;
+struct _cef_v8context_t;
 
 ///
 // Structure used to represent a frame in the browser window. When used in the
@@ -131,7 +137,9 @@ typedef struct _cef_frame_t {
       const cef_string_t* url);
 
   ///
-  // Load the contents of |string_val| with the optional dummy target |url|.
+  // Load the contents of |string_val| with the specified dummy |url|. |url|
+  // should have a standard scheme (for example, http scheme) or behaviors like
+  // link clicks and web security restrictions may not behave as expected.
   ///
   void (CEF_CALLBACK *load_string)(struct _cef_frame_t* self,
       const cef_string_t* string_val, const cef_string_t* url);

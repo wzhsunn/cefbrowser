@@ -1,4 +1,4 @@
-// Copyright (c) 2013 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2014 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -38,11 +38,13 @@
 #define CEF_INCLUDE_CAPI_CEF_DOWNLOAD_HANDLER_CAPI_H_
 #pragma once
 
+#include "include/capi/cef_base_capi.h"
+#include "include/capi/cef_browser_capi.h"
+#include "include/capi/cef_download_item_capi.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include "include/capi/cef_base_capi.h"
 
 
 ///
@@ -106,6 +108,7 @@ typedef struct _cef_download_handler_t {
 
   ///
   // Called when a download's status or progress information has been updated.
+  // This may be called multiple times before and after on_before_download().
   // Execute |callback| either asynchronously or in this function to cancel the
   // download if desired. Do not keep a reference to |download_item| outside of
   // this function.

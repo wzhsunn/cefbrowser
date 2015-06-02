@@ -1,4 +1,4 @@
-// Copyright (c) 2013 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2014 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -38,11 +38,11 @@
 #define CEF_INCLUDE_CAPI_CEF_ORIGIN_WHITELIST_CAPI_H_
 #pragma once
 
+#include "include/capi/cef_base_capi.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include "include/capi/cef_base_capi.h"
 
 
 ///
@@ -68,10 +68,11 @@ extern "C" {
 // |source_origin| URL (like http://www.example.com) will be allowed access to
 // all resources hosted on the specified |target_protocol| and |target_domain|.
 // If |target_domain| is non-NULL and |allow_target_subdomains| if false (0)
-// only exact domain matches will be allowed. If |target_domain| is non-NULL and
-// |allow_target_subdomains| is true (1) sub-domain matches will be allowed. If
-// |target_domain| is NULL and |allow_target_subdomains| if true (1) all domains
-// and IP addresses will be allowed.
+// only exact domain matches will be allowed. If |target_domain| contains a top-
+// level domain component (like "example.com") and |allow_target_subdomains| is
+// true (1) sub-domain matches will be allowed. If |target_domain| is NULL and
+// |allow_target_subdomains| if true (1) all domains and IP addresses will be
+// allowed.
 //
 // This function cannot be used to bypass the restrictions on local or display
 // isolated schemes. See the comments on CefRegisterCustomScheme for more

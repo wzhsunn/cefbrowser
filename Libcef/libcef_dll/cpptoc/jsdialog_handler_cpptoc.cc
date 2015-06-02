@@ -1,4 +1,4 @@
-// Copyright (c) 2013 The Chromium Embedded Framework Authors. All rights
+// Copyright (c) 2014 The Chromium Embedded Framework Authors. All rights
 // reserved. Use of this source code is governed by a BSD-style license that
 // can be found in the LICENSE file.
 //
@@ -20,7 +20,7 @@
 int CEF_CALLBACK jsdialog_handler_on_jsdialog(
     struct _cef_jsdialog_handler_t* self, cef_browser_t* browser,
     const cef_string_t* origin_url, const cef_string_t* accept_lang,
-    enum cef_jsdialog_type_t dialog_type, const cef_string_t* message_text,
+    cef_jsdialog_type_t dialog_type, const cef_string_t* message_text,
     const cef_string_t* default_prompt_text, cef_jsdialog_callback_t* callback,
     int* suppress_message) {
   // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
@@ -32,10 +32,6 @@ int CEF_CALLBACK jsdialog_handler_on_jsdialog(
   DCHECK(browser);
   if (!browser)
     return 0;
-  // Verify param: origin_url; type: string_byref_const
-  DCHECK(origin_url);
-  if (!origin_url)
-    return 0;
   // Verify param: callback; type: refptr_diff
   DCHECK(callback);
   if (!callback)
@@ -44,7 +40,8 @@ int CEF_CALLBACK jsdialog_handler_on_jsdialog(
   DCHECK(suppress_message);
   if (!suppress_message)
     return 0;
-  // Unverified params: accept_lang, message_text, default_prompt_text
+  // Unverified params: origin_url, accept_lang, message_text,
+  // default_prompt_text
 
   // Translate param: suppress_message; type: bool_byref
   bool suppress_messageBool = (
@@ -116,6 +113,23 @@ void CEF_CALLBACK jsdialog_handler_on_reset_dialog_state(
       CefBrowserCToCpp::Wrap(browser));
 }
 
+void CEF_CALLBACK jsdialog_handler_on_dialog_closed(
+    struct _cef_jsdialog_handler_t* self, cef_browser_t* browser) {
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  DCHECK(self);
+  if (!self)
+    return;
+  // Verify param: browser; type: refptr_diff
+  DCHECK(browser);
+  if (!browser)
+    return;
+
+  // Execute
+  CefJSDialogHandlerCppToC::Get(self)->OnDialogClosed(
+      CefBrowserCToCpp::Wrap(browser));
+}
+
 
 // CONSTRUCTOR - Do not edit by hand.
 
@@ -127,10 +141,11 @@ CefJSDialogHandlerCppToC::CefJSDialogHandlerCppToC(CefJSDialogHandler* cls)
       jsdialog_handler_on_before_unload_dialog;
   struct_.struct_.on_reset_dialog_state =
       jsdialog_handler_on_reset_dialog_state;
+  struct_.struct_.on_dialog_closed = jsdialog_handler_on_dialog_closed;
 }
 
 #ifndef NDEBUG
-template<> long CefCppToC<CefJSDialogHandlerCppToC, CefJSDialogHandler,
-    cef_jsdialog_handler_t>::DebugObjCt = 0;
+template<> base::AtomicRefCount CefCppToC<CefJSDialogHandlerCppToC,
+    CefJSDialogHandler, cef_jsdialog_handler_t>::DebugObjCt = 0;
 #endif
 

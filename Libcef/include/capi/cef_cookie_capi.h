@@ -1,4 +1,4 @@
-// Copyright (c) 2013 Marshall A. Greenblatt. All rights reserved.
+// Copyright (c) 2014 Marshall A. Greenblatt. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
@@ -38,12 +38,14 @@
 #define CEF_INCLUDE_CAPI_CEF_COOKIE_CAPI_H_
 #pragma once
 
+#include "include/capi/cef_base_capi.h"
+#include "include/capi/cef_callback_capi.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "include/capi/cef_base_capi.h"
-
+struct _cef_cookie_visitor_t;
 
 ///
 // Structure used for managing cookies. The functions of this structure may be
@@ -106,11 +108,23 @@ typedef struct _cef_cookie_manager_t {
 
   ///
   // Sets the directory path that will be used for storing cookie data. If
-  // |path| is NULL data will be stored in memory only. Returns false (0) if
-  // cookies cannot be accessed.
+  // |path| is NULL data will be stored in memory only. Otherwise, data will be
+  // stored at the specified |path|. To persist session cookies (cookies without
+  // an expiry date or validity interval) set |persist_session_cookies| to true
+  // (1). Session cookies are generally intended to be transient and most Web
+  // browsers do not persist them. Returns false (0) if cookies cannot be
+  // accessed.
   ///
   int (CEF_CALLBACK *set_storage_path)(struct _cef_cookie_manager_t* self,
-      const cef_string_t* path);
+      const cef_string_t* path, int persist_session_cookies);
+
+  ///
+  // Flush the backing store (if any) to disk and execute the specified
+  // |callback| on the IO thread when done. Returns false (0) if cookies cannot
+  // be accessed.
+  ///
+  int (CEF_CALLBACK *flush_store)(struct _cef_cookie_manager_t* self,
+      struct _cef_completion_callback_t* callback);
 } cef_cookie_manager_t;
 
 
@@ -122,10 +136,14 @@ CEF_EXPORT cef_cookie_manager_t* cef_cookie_manager_get_global_manager();
 
 ///
 // Creates a new cookie manager. If |path| is NULL data will be stored in memory
-// only. Returns NULL if creation fails.
+// only. Otherwise, data will be stored at the specified |path|. To persist
+// session cookies (cookies without an expiry date or validity interval) set
+// |persist_session_cookies| to true (1). Session cookies are generally intended
+// to be transient and most Web browsers do not persist them. Returns NULL if
+// creation fails.
 ///
 CEF_EXPORT cef_cookie_manager_t* cef_cookie_manager_create_manager(
-    const cef_string_t* path);
+    const cef_string_t* path, int persist_session_cookies);
 
 
 ///

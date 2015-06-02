@@ -1,4 +1,4 @@
-// Copyright (c) 2013 The Chromium Embedded Framework Authors. All rights
+// Copyright (c) 2014 The Chromium Embedded Framework Authors. All rights
 // reserved. Use of this source code is governed by a BSD-style license that
 // can be found in the LICENSE file.
 //
@@ -12,6 +12,7 @@
 
 #include "libcef_dll/cpptoc/render_handler_cpptoc.h"
 #include "libcef_dll/ctocpp/browser_ctocpp.h"
+#include "libcef_dll/ctocpp/drag_data_ctocpp.h"
 
 
 // MEMBER FUNCTIONS - Body may be edited by hand.
@@ -127,6 +128,41 @@ int CEF_CALLBACK render_handler_get_screen_point(
   return _retval;
 }
 
+int CEF_CALLBACK render_handler_get_screen_info(
+    struct _cef_render_handler_t* self, cef_browser_t* browser,
+    struct _cef_screen_info_t* screen_info) {
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  DCHECK(self);
+  if (!self)
+    return 0;
+  // Verify param: browser; type: refptr_diff
+  DCHECK(browser);
+  if (!browser)
+    return 0;
+  // Verify param: screen_info; type: struct_byref
+  DCHECK(screen_info);
+  if (!screen_info)
+    return 0;
+
+  // Translate param: screen_info; type: struct_byref
+  CefScreenInfo screen_infoObj;
+  if (screen_info)
+    screen_infoObj.AttachTo(*screen_info);
+
+  // Execute
+  bool _retval = CefRenderHandlerCppToC::Get(self)->GetScreenInfo(
+      CefBrowserCToCpp::Wrap(browser),
+      screen_infoObj);
+
+  // Restore param: screen_info; type: struct_byref
+  if (screen_info)
+    screen_infoObj.DetachTo(*screen_info);
+
+  // Return type: bool
+  return _retval;
+}
+
 void CEF_CALLBACK render_handler_on_popup_show(
     struct _cef_render_handler_t* self, cef_browser_t* browser, int show) {
   // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
@@ -172,7 +208,7 @@ void CEF_CALLBACK render_handler_on_popup_size(
 }
 
 void CEF_CALLBACK render_handler_on_paint(struct _cef_render_handler_t* self,
-    cef_browser_t* browser, enum cef_paint_element_type_t type,
+    cef_browser_t* browser, cef_paint_element_type_t type,
     size_t dirtyRectsCount, cef_rect_t const* dirtyRects, const void* buffer,
     int width, int height) {
   // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
@@ -213,7 +249,68 @@ void CEF_CALLBACK render_handler_on_paint(struct _cef_render_handler_t* self,
 
 void CEF_CALLBACK render_handler_on_cursor_change(
     struct _cef_render_handler_t* self, cef_browser_t* browser,
-    cef_cursor_handle_t cursor) {
+    cef_cursor_handle_t cursor, cef_cursor_type_t type,
+    const struct _cef_cursor_info_t* custom_cursor_info) {
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  DCHECK(self);
+  if (!self)
+    return;
+  // Verify param: browser; type: refptr_diff
+  DCHECK(browser);
+  if (!browser)
+    return;
+  // Verify param: custom_cursor_info; type: struct_byref_const
+  DCHECK(custom_cursor_info);
+  if (!custom_cursor_info)
+    return;
+
+  // Translate param: custom_cursor_info; type: struct_byref_const
+  CefCursorInfo custom_cursor_infoObj;
+  if (custom_cursor_info)
+    custom_cursor_infoObj.Set(*custom_cursor_info, false);
+
+  // Execute
+  CefRenderHandlerCppToC::Get(self)->OnCursorChange(
+      CefBrowserCToCpp::Wrap(browser),
+      cursor,
+      type,
+      custom_cursor_infoObj);
+}
+
+int CEF_CALLBACK render_handler_start_dragging(
+    struct _cef_render_handler_t* self, cef_browser_t* browser,
+    cef_drag_data_t* drag_data, cef_drag_operations_mask_t allowed_ops, int x,
+    int y) {
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  DCHECK(self);
+  if (!self)
+    return 0;
+  // Verify param: browser; type: refptr_diff
+  DCHECK(browser);
+  if (!browser)
+    return 0;
+  // Verify param: drag_data; type: refptr_diff
+  DCHECK(drag_data);
+  if (!drag_data)
+    return 0;
+
+  // Execute
+  bool _retval = CefRenderHandlerCppToC::Get(self)->StartDragging(
+      CefBrowserCToCpp::Wrap(browser),
+      CefDragDataCToCpp::Wrap(drag_data),
+      allowed_ops,
+      x,
+      y);
+
+  // Return type: bool
+  return _retval;
+}
+
+void CEF_CALLBACK render_handler_update_drag_cursor(
+    struct _cef_render_handler_t* self, cef_browser_t* browser,
+    cef_drag_operations_mask_t operation) {
   // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
 
   DCHECK(self);
@@ -225,9 +322,26 @@ void CEF_CALLBACK render_handler_on_cursor_change(
     return;
 
   // Execute
-  CefRenderHandlerCppToC::Get(self)->OnCursorChange(
+  CefRenderHandlerCppToC::Get(self)->UpdateDragCursor(
       CefBrowserCToCpp::Wrap(browser),
-      cursor);
+      operation);
+}
+
+void CEF_CALLBACK render_handler_on_scroll_offset_changed(
+    struct _cef_render_handler_t* self, cef_browser_t* browser) {
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  DCHECK(self);
+  if (!self)
+    return;
+  // Verify param: browser; type: refptr_diff
+  DCHECK(browser);
+  if (!browser)
+    return;
+
+  // Execute
+  CefRenderHandlerCppToC::Get(self)->OnScrollOffsetChanged(
+      CefBrowserCToCpp::Wrap(browser));
 }
 
 
@@ -239,14 +353,19 @@ CefRenderHandlerCppToC::CefRenderHandlerCppToC(CefRenderHandler* cls)
   struct_.struct_.get_root_screen_rect = render_handler_get_root_screen_rect;
   struct_.struct_.get_view_rect = render_handler_get_view_rect;
   struct_.struct_.get_screen_point = render_handler_get_screen_point;
+  struct_.struct_.get_screen_info = render_handler_get_screen_info;
   struct_.struct_.on_popup_show = render_handler_on_popup_show;
   struct_.struct_.on_popup_size = render_handler_on_popup_size;
   struct_.struct_.on_paint = render_handler_on_paint;
   struct_.struct_.on_cursor_change = render_handler_on_cursor_change;
+  struct_.struct_.start_dragging = render_handler_start_dragging;
+  struct_.struct_.update_drag_cursor = render_handler_update_drag_cursor;
+  struct_.struct_.on_scroll_offset_changed =
+      render_handler_on_scroll_offset_changed;
 }
 
 #ifndef NDEBUG
-template<> long CefCppToC<CefRenderHandlerCppToC, CefRenderHandler,
-    cef_render_handler_t>::DebugObjCt = 0;
+template<> base::AtomicRefCount CefCppToC<CefRenderHandlerCppToC,
+    CefRenderHandler, cef_render_handler_t>::DebugObjCt = 0;
 #endif
 

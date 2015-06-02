@@ -1,4 +1,4 @@
-// Copyright (c) 2013 The Chromium Embedded Framework Authors. All rights
+// Copyright (c) 2014 The Chromium Embedded Framework Authors. All rights
 // reserved. Use of this source code is governed by a BSD-style license that
 // can be found in the LICENSE file.
 //
@@ -10,6 +10,7 @@
 // for more information.
 //
 
+#include "libcef_dll/cpptoc/load_handler_cpptoc.h"
 #include "libcef_dll/cpptoc/render_process_handler_cpptoc.h"
 #include "libcef_dll/ctocpp/browser_ctocpp.h"
 #include "libcef_dll/ctocpp/domnode_ctocpp.h"
@@ -88,10 +89,26 @@ void CEF_CALLBACK render_process_handler_on_browser_destroyed(
       CefBrowserCToCpp::Wrap(browser));
 }
 
+cef_load_handler_t* CEF_CALLBACK render_process_handler_get_load_handler(
+    struct _cef_render_process_handler_t* self) {
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  DCHECK(self);
+  if (!self)
+    return NULL;
+
+  // Execute
+  CefRefPtr<CefLoadHandler> _retval = CefRenderProcessHandlerCppToC::Get(
+      self)->GetLoadHandler();
+
+  // Return type: refptr_same
+  return CefLoadHandlerCppToC::Wrap(_retval);
+}
+
 int CEF_CALLBACK render_process_handler_on_before_navigation(
     struct _cef_render_process_handler_t* self, cef_browser_t* browser,
     cef_frame_t* frame, struct _cef_request_t* request,
-    enum cef_navigation_type_t navigation_type, int is_redirect) {
+    cef_navigation_type_t navigation_type, int is_redirect) {
   // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
 
   DCHECK(self);
@@ -218,90 +235,6 @@ void CEF_CALLBACK render_process_handler_on_uncaught_exception(
       CefV8StackTraceCToCpp::Wrap(stackTrace));
 }
 
-void CEF_CALLBACK render_process_handler_on_worker_context_created(
-    struct _cef_render_process_handler_t* self, int worker_id,
-    const cef_string_t* url, struct _cef_v8context_t* context) {
-  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
-
-  DCHECK(self);
-  if (!self)
-    return;
-  // Verify param: url; type: string_byref_const
-  DCHECK(url);
-  if (!url)
-    return;
-  // Verify param: context; type: refptr_diff
-  DCHECK(context);
-  if (!context)
-    return;
-
-  // Execute
-  CefRenderProcessHandlerCppToC::Get(self)->OnWorkerContextCreated(
-      worker_id,
-      CefString(url),
-      CefV8ContextCToCpp::Wrap(context));
-}
-
-void CEF_CALLBACK render_process_handler_on_worker_context_released(
-    struct _cef_render_process_handler_t* self, int worker_id,
-    const cef_string_t* url, struct _cef_v8context_t* context) {
-  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
-
-  DCHECK(self);
-  if (!self)
-    return;
-  // Verify param: url; type: string_byref_const
-  DCHECK(url);
-  if (!url)
-    return;
-  // Verify param: context; type: refptr_diff
-  DCHECK(context);
-  if (!context)
-    return;
-
-  // Execute
-  CefRenderProcessHandlerCppToC::Get(self)->OnWorkerContextReleased(
-      worker_id,
-      CefString(url),
-      CefV8ContextCToCpp::Wrap(context));
-}
-
-void CEF_CALLBACK render_process_handler_on_worker_uncaught_exception(
-    struct _cef_render_process_handler_t* self, int worker_id,
-    const cef_string_t* url, struct _cef_v8context_t* context,
-    struct _cef_v8exception_t* exception,
-    struct _cef_v8stack_trace_t* stackTrace) {
-  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
-
-  DCHECK(self);
-  if (!self)
-    return;
-  // Verify param: url; type: string_byref_const
-  DCHECK(url);
-  if (!url)
-    return;
-  // Verify param: context; type: refptr_diff
-  DCHECK(context);
-  if (!context)
-    return;
-  // Verify param: exception; type: refptr_diff
-  DCHECK(exception);
-  if (!exception)
-    return;
-  // Verify param: stackTrace; type: refptr_diff
-  DCHECK(stackTrace);
-  if (!stackTrace)
-    return;
-
-  // Execute
-  CefRenderProcessHandlerCppToC::Get(self)->OnWorkerUncaughtException(
-      worker_id,
-      CefString(url),
-      CefV8ContextCToCpp::Wrap(context),
-      CefV8ExceptionCToCpp::Wrap(exception),
-      CefV8StackTraceCToCpp::Wrap(stackTrace));
-}
-
 void CEF_CALLBACK render_process_handler_on_focused_node_changed(
     struct _cef_render_process_handler_t* self, cef_browser_t* browser,
     cef_frame_t* frame, cef_domnode_t* node) {
@@ -325,7 +258,7 @@ void CEF_CALLBACK render_process_handler_on_focused_node_changed(
 
 int CEF_CALLBACK render_process_handler_on_process_message_received(
     struct _cef_render_process_handler_t* self, cef_browser_t* browser,
-    enum cef_process_id_t source_process, cef_process_message_t* message) {
+    cef_process_id_t source_process, cef_process_message_t* message) {
   // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
 
   DCHECK(self);
@@ -366,6 +299,7 @@ CefRenderProcessHandlerCppToC::CefRenderProcessHandlerCppToC(
       render_process_handler_on_browser_created;
   struct_.struct_.on_browser_destroyed =
       render_process_handler_on_browser_destroyed;
+  struct_.struct_.get_load_handler = render_process_handler_get_load_handler;
   struct_.struct_.on_before_navigation =
       render_process_handler_on_before_navigation;
   struct_.struct_.on_context_created =
@@ -374,12 +308,6 @@ CefRenderProcessHandlerCppToC::CefRenderProcessHandlerCppToC(
       render_process_handler_on_context_released;
   struct_.struct_.on_uncaught_exception =
       render_process_handler_on_uncaught_exception;
-  struct_.struct_.on_worker_context_created =
-      render_process_handler_on_worker_context_created;
-  struct_.struct_.on_worker_context_released =
-      render_process_handler_on_worker_context_released;
-  struct_.struct_.on_worker_uncaught_exception =
-      render_process_handler_on_worker_uncaught_exception;
   struct_.struct_.on_focused_node_changed =
       render_process_handler_on_focused_node_changed;
   struct_.struct_.on_process_message_received =
@@ -387,7 +315,7 @@ CefRenderProcessHandlerCppToC::CefRenderProcessHandlerCppToC(
 }
 
 #ifndef NDEBUG
-template<> long CefCppToC<CefRenderProcessHandlerCppToC,
+template<> base::AtomicRefCount CefCppToC<CefRenderProcessHandlerCppToC,
     CefRenderProcessHandler, cef_render_process_handler_t>::DebugObjCt = 0;
 #endif
 
